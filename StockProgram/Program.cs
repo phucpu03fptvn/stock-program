@@ -1,6 +1,8 @@
 
 using Microsoft.EntityFrameworkCore;
 using StockProgram.Data;
+using StockProgram.Repositories.StockRepository;
+using StockProgram.Services.StockService;
 
 namespace StockProgram
 {
@@ -21,6 +23,8 @@ namespace StockProgram
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
+            builder.Services.AddScoped<IStockRepo, StockRepo>();
+            builder.Services.AddScoped<IStockService, StockService>();
 
             var app = builder.Build();
 

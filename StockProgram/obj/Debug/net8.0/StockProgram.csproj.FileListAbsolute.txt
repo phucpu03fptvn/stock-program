@@ -134,3 +134,4 @@ D:\StockProgram\StockProgram\obj\Debug\net8.0\StockProgram.pdb
 D:\StockProgram\StockProgram\obj\Debug\net8.0\StockProgram.genruntimeconfig.cache
 D:\StockProgram\StockProgram\obj\Debug\net8.0\ref\StockProgram.dll
 D:\StockProgram\StockProgram\obj\Debug\net8.0\StockPro.2C697F3C.Up2Date
+D:\StockProgram\StockProgram\obj\Debug\net8.0\StockProgram.sourcelink.json

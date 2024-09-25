@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using StockProgram.Data;
 using StockProgram.Dtos.Stock;
 using StockProgram.Mappers;
+using StockProgram.Services.StockService;
 using System.Dynamic;
 
 namespace StockProgram.Controllers
@@ -9,28 +11,27 @@ namespace StockProgram.Controllers
     [Route("api/v1")]
     public class StockController : Controller
     {
-        private readonly ApplicationDBContext _dbContext;
-        public StockController(ApplicationDBContext context)
+        private IStockService _stockService;
+        public StockController(IStockService service)
         {
-            _dbContext = context;
+            _stockService = service;
         }
 
         [HttpGet("/getAllStocks")]
-        public IActionResult GetAllStocks()
+        public async Task<IActionResult> GetAllStocks()
         {
-            var stocks = _dbContext.Stocks.ToList().Select(s => s.ToStockDTO());
-            return Ok(stocks);
+            var stocks = await _stockService.GetStocksAsync();
+            var stocksResult = stocks.Select(s => s.ToStockDTO()); 
+            return Ok(stocksResult);
         }
 
         [HttpGet("/getStock/{id}")]
-        public IActionResult GetStock([FromRoute] int id)
+        public async Task<IActionResult> GetStock([FromRoute] int id)
         {
-            var stock = _dbContext.Stocks.FirstOrDefault(x => x.Id == id);
-            if (stock == null)
-            {
-                return NotFound(); // Trả về 404 nếu không tìm thấy
-            }
-            return Ok(stock.ToStockDTO());
+            var stock = await _stockService.GetStockByIdAsync(id);
+            //Chuyển đổi sang DTO cần phải chắc chắn rằng stock đã được gen đầy đủ 
+            var stockDTO = stock.ToStockDTO();
+            return Ok(stockDTO);
         }
 
         [HttpPost("")]
@@ -38,16 +39,15 @@ namespace StockProgram.Controllers
         public IActionResult CreateStock([FromBody] CreateStockRequestDTO stockRequestDTO)
         {
             var stockModel = stockRequestDTO.ToStockFromCreateDTO();
-            _dbContext.Stocks.Add(stockModel);
-            _dbContext.SaveChanges();
+            _stockService.CreateStock(stockModel);
 
             return CreatedAtAction(nameof(GetStock), new { id = stockModel.Id }, stockModel);
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateStock([FromRoute] int id, [FromBody] UpdateStockDTO updateStockDTO)
+        public async Task<IActionResult> UpdateStock([FromRoute] int id, [FromBody] UpdateStockDTO updateStockDTO)
         {
-            var stockModel = _dbContext.Stocks.FirstOrDefault(x => x.Id == id);
+            var stockModel = await _stockService.GetStockByIdAsync(id);
             if (stockModel == null)
             {
                 return NotFound();
@@ -60,20 +60,18 @@ namespace StockProgram.Controllers
             stockModel.LastDiv = updateStockDTO.LastDiv;
             stockModel.Industry = updateStockDTO.Industry;
 
-            _dbContext.Update(stockModel);
-            _dbContext.SaveChanges();
+            _stockService.UpdateStock(stockModel);
             return Ok(stockModel.ToStockDTO());
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteStock([FromRoute] int id)
+        public async Task<IActionResult> DeleteStock([FromRoute] int id)
         {
             string message = "";
-            var stockModel = _dbContext.Stocks.FirstOrDefault(x => x.Id == id);
+            var stockModel = await _stockService.GetStockByIdAsync(id);
             if (stockModel != null)
             {
-                _dbContext.Stocks.Remove(stockModel);
-                _dbContext.SaveChanges();
+                _stockService.DeleteStock(stockModel.Id);
                 message = $"DeleteSuccessfully stock with id: {id}";
             }
             else

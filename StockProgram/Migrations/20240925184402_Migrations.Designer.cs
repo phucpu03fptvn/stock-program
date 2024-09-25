@@ -12,8 +12,8 @@ using StockProgram.Data;
 namespace StockProgram.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20240922161039_init")]
-    partial class init
+    [Migration("20240925184402_Migrations")]
+    partial class Migrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
