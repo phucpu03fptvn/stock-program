@@ -10,12 +10,26 @@ namespace StockProgram.Services.StockService
         {
             _stockRepo = stockRepo;
         }
-        public bool CreateStock(Stock stock)
+        public async Task<bool> CreateStock(Stock stock)
+        {
+            try
+            {
+                await _stockRepo.AddNewStock(stock);
+                return true;    
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<bool> DeleteStock(int id)
         {
             bool result = false;
             try
             {
-                _stockRepo.AddNewStock(stock);
+                await _stockRepo.DeleteStock(id);
                 result = true;
             }
             catch (Exception)
@@ -26,32 +40,16 @@ namespace StockProgram.Services.StockService
             return result;
         }
 
-        public bool DeleteStock(int id)
+        public async Task<Stock> GetStockByIdAsync(int id)=> await _stockRepo.GetStock(id);
+
+        public async Task<List<Stock>> GetStocksAsync()=> await _stockRepo.GetStocksAsync();
+
+        public async Task<bool> UpdateStock(Stock stock)
         {
             bool result = false;
             try
             {
-                _stockRepo.DeleteStock(id);
-                result = true;
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-            return result;
-        }
-
-        public Task<Stock> GetStockByIdAsync(int id)=> _stockRepo.GetStock(id);
-
-        public Task<List<Stock>> GetStocksAsync()=> _stockRepo.GetStocksAsync();
-
-        public bool UpdateStock(Stock stock)
-        {
-            bool result = false;
-            try
-            {
-                _stockRepo.UpdateStock(stock);
+               await _stockRepo.UpdateStock(stock);
                 result=true;
             }
             catch (Exception)

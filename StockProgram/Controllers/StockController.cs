@@ -29,17 +29,23 @@ namespace StockProgram.Controllers
         public async Task<IActionResult> GetStock([FromRoute] int id)
         {
             var stock = await _stockService.GetStockByIdAsync(id);
-            //Chuyển đổi sang DTO cần phải chắc chắn rằng stock đã được gen đầy đủ 
-            var stockDTO = stock.ToStockDTO();
-            return Ok(stockDTO);
+            if (stock == null) {
+                return BadRequest();
+            }
+            else {
+                //Chuyển đổi sang DTO cần phải chắc chắn rằng stock đã được gen đầy đủ 
+                var stockDTO = stock.ToStockDTO();
+                return Ok(stockDTO);
+            }
+           
         }
 
         [HttpPost("")]
 
-        public IActionResult CreateStock([FromBody] CreateStockRequestDTO stockRequestDTO)
+        public async Task<IActionResult> CreateStock([FromBody] CreateStockRequestDTO stockRequestDTO)
         {
             var stockModel = stockRequestDTO.ToStockFromCreateDTO();
-            _stockService.CreateStock(stockModel);
+            var result = await _stockService.CreateStock(stockModel);
 
             return CreatedAtAction(nameof(GetStock), new { id = stockModel.Id }, stockModel);
         }
@@ -60,8 +66,8 @@ namespace StockProgram.Controllers
             stockModel.LastDiv = updateStockDTO.LastDiv;
             stockModel.Industry = updateStockDTO.Industry;
 
-            _stockService.UpdateStock(stockModel);
-            return Ok(stockModel.ToStockDTO());
+            var result = await _stockService.UpdateStock(stockModel);
+            return Ok(result);
         }
 
         [HttpDelete("{id}")]
@@ -71,7 +77,7 @@ namespace StockProgram.Controllers
             var stockModel = await _stockService.GetStockByIdAsync(id);
             if (stockModel != null)
             {
-                _stockService.DeleteStock(stockModel.Id);
+                await _stockService.DeleteStock(stockModel.Id);
                 message = $"DeleteSuccessfully stock with id: {id}";
             }
             else
