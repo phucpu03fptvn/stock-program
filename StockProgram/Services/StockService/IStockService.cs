@@ -8,10 +8,10 @@ namespace StockProgram.Services.StockService
 
         Task<Stock> GetStockByIdAsync(int id);
 
-        bool CreateStock(Stock stock);
+        Task<bool> CreateStock(Stock stock);
 
-        bool UpdateStock(Stock stock);
+        Task<bool> UpdateStock(Stock stock);
 
-        bool DeleteStock(int id);
+        Task<bool> DeleteStock(int id);
     }
 }

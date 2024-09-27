@@ -12,13 +12,13 @@ namespace StockProgram.Repositories.StockRepository
         {
             _dbContext = dBContext;
         }
-        public bool AddNewStock(Stock stock)
+        public async Task<bool> AddNewStock(Stock stock)
         {
             bool result = false;
             try
             {
                 _dbContext.Stocks.Add(stock);
-                _dbContext.SaveChangesAsync();
+                await _dbContext.SaveChangesAsync();
                 result = true;
             }
             catch (Exception)
@@ -29,13 +29,14 @@ namespace StockProgram.Repositories.StockRepository
             return result;
         }
 
-        public bool DeleteStock(int id)
+        public async Task<bool> DeleteStock(int id)
         {
             bool result = false;
             try
             {
-                var selectedStock = _dbContext.Stocks.FirstOrDefault(x => x.Id == id);
+                var selectedStock = await _dbContext.Stocks.FirstOrDefaultAsync(x => x.Id == id);
                 _dbContext.Stocks.Remove(selectedStock);
+                await _dbContext.SaveChangesAsync();
                 result = true;
             }
             catch (Exception)
@@ -46,16 +47,21 @@ namespace StockProgram.Repositories.StockRepository
             return result;
         }
 
-        public Task<Stock> GetStock(int id) => _dbContext.Stocks.FirstOrDefaultAsync(x => x.Id == id);
+        public async Task<Stock> GetStock(int id)
+        {
+            var stock =  await _dbContext.Stocks.FirstOrDefaultAsync(x => x.Id == id);
+            return stock;
 
-        public Task<List<Stock>> GetStocksAsync() => _dbContext.Stocks.ToListAsync();
-        public bool UpdateStock(Stock stock)
+        }
+
+        public async Task<List<Stock>> GetStocksAsync() =>await _dbContext.Stocks.ToListAsync();
+        public async Task<bool> UpdateStock(Stock stock)
         {
             bool result = false;
             try
             {
                 _dbContext.Stocks.Update(stock);
-                _dbContext.SaveChangesAsync();
+                await _dbContext.SaveChangesAsync();
                 result = true;
             }
             catch (Exception)

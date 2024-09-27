@@ -5,14 +5,14 @@ namespace StockProgram.Repositories.StockRepository
 {
     public interface IStockRepo
     {
-       Task<List<Stock>> GetStocksAsync();
+        Task<List<Stock>> GetStocksAsync();
         Task<Stock> GetStock(int id);
 
-        bool AddNewStock(Stock stock); 
+        Task<bool> AddNewStock(Stock stock); 
 
-        bool DeleteStock(int id);
+        Task<bool> DeleteStock(int id);
 
-        bool UpdateStock(Stock stock);
+        Task<bool> UpdateStock(Stock stock);
 
     }
 }
