@@ -1,5 +1,6 @@
 ﻿using StockProgram.Dtos.Stock;
-using StockProgram.Models;
+using StockProgram_API.Mappers;
+using StockProgram_Domain.Models;
 
 namespace StockProgram.Mappers
 {
@@ -17,7 +18,8 @@ namespace StockProgram.Mappers
                     Purchase = stockModel.Purchase,
                     LastDiv = stockModel.LastDiv,
                     Industry = stockModel.Industry,
-                    MarketCap = stockModel.MarketCap
+                    MarketCap = stockModel.MarketCap,
+                    Comments = stockModel.Comments.Select(c => c.ToCommentDTO()).ToList(),
                 };
             }
             catch (Exception ex)

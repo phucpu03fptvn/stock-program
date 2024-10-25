@@ -1,14 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using StockProgram.Data;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using StockProgram.Dtos.Stock;
 using StockProgram.Mappers;
 using StockProgram.Services.StockService;
+using StockProgram_Application.Helpers;
 using System.Dynamic;
 
 namespace StockProgram.Controllers
 {
-    [Route("api/v1")]
+    [Route("api/v1/stock")]
     public class StockController : Controller
     {
         private IStockService _stockService;
@@ -18,9 +18,9 @@ namespace StockProgram.Controllers
         }
 
         [HttpGet("/getAllStocks")]
-        public async Task<IActionResult> GetAllStocks()
+        public async Task<IActionResult> GetAllStocks([FromQuery] QueryObject query)
         {
-            var stocks = await _stockService.GetStocksAsync();
+            var stocks = await _stockService.GetStocksAsync(query);
             var stocksResult = stocks.Select(s => s.ToStockDTO()); 
             return Ok(stocksResult);
         }
@@ -41,7 +41,7 @@ namespace StockProgram.Controllers
         }
 
         [HttpPost("")]
-
+        [Authorize]
         public async Task<IActionResult> CreateStock([FromBody] CreateStockRequestDTO stockRequestDTO)
         {
             var stockModel = stockRequestDTO.ToStockFromCreateDTO();
@@ -51,6 +51,7 @@ namespace StockProgram.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> UpdateStock([FromRoute] int id, [FromBody] UpdateStockDTO updateStockDTO)
         {
             var stockModel = await _stockService.GetStockByIdAsync(id);
@@ -71,6 +72,7 @@ namespace StockProgram.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteStock([FromRoute] int id)
         {
             string message = "";

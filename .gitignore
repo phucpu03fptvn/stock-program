@@ -31,7 +31,7 @@ Icon?
 *.sublime-project
 
 # Tệp tài nguyên
-*.csproj
+#*.csproj
 *.unityproj
 *.sln
 *.suo
