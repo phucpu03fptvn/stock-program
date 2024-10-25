@@ -1,8 +1,8 @@
 {
   "Version": 1,
-  "Hash": "aDdqs5MclXVadToAPKFNRGlnurq75LG/yYVPjoLwNWU=",
-  "Source": "StockProgram",
-  "BasePath": "_content/StockProgram",
+  "Hash": "/OU9sb7xI+ocbkRQVNivjNQsq8ljpKl19QLfhVT1aqs=",
+  "Source": "StockProgram_API",
+  "BasePath": "_content/StockProgram_API",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],

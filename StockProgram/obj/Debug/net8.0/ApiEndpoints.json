@@ -1,8 +1,109 @@
 [
   {
+    "ContainingType": "StockProgram_API.Controllers.CommentController",
+    "Method": "GetComment",
+    "RelativePath": "{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "StockProgram_API.Controllers.CommentController",
+    "Method": "UpdateNewComment",
+    "RelativePath": "{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "commentDTO",
+        "Type": "StockProgram_API.Dtos.Comment.UpdateCommentDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "StockProgram_API.Controllers.CommentController",
+    "Method": "DeleteComment",
+    "RelativePath": "{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "StockProgram_API.Controllers.AccountController",
+    "Method": "LoginWithUserNamePassword",
+    "RelativePath": "api/account/login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "loginDTO",
+        "Type": "StockProgram_API.Dtos.Account.LoginDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "StockProgram_API.Controllers.AccountController",
+    "Method": "RegisterAccount",
+    "RelativePath": "api/account/register",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "registerDTO",
+        "Type": "StockProgram_API.Dtos.Account.RegisterDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "StockProgram_API.Controllers.CommentController",
+    "Method": "CreateNewComment",
+    "RelativePath": "api/v1/comment",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "commentDTO",
+        "Type": "StockProgram_API.Dtos.Comment.CreateCommentDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "StockProgram.Controllers.StockController",
     "Method": "CreateStock",
-    "RelativePath": "api/v1",
+    "RelativePath": "api/v1/stock",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -18,7 +119,7 @@
   {
     "ContainingType": "StockProgram.Controllers.StockController",
     "Method": "UpdateStock",
-    "RelativePath": "api/v1/{id}",
+    "RelativePath": "api/v1/stock/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -39,7 +140,7 @@
   {
     "ContainingType": "StockProgram.Controllers.StockController",
     "Method": "DeleteStock",
-    "RelativePath": "api/v1/{id}",
+    "RelativePath": "api/v1/stock/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -53,13 +154,54 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "StockProgram_API.Controllers.CommentController",
+    "Method": "GetAllComments",
+    "RelativePath": "getAllComments",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "StockProgram.Controllers.StockController",
     "Method": "GetAllStocks",
     "RelativePath": "getAllStocks",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "Name": "Symbol",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "CompanyName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "SortBy",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "IsDecsending",
+        "Type": "System.Boolean",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageNumber",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
     "ReturnTypes": []
   },
   {
@@ -88,7 +230,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[StockProgram.WeatherForecast, StockProgram, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[StockProgram.WeatherForecast, StockProgram_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
